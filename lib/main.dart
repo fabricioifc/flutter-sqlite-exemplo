@@ -4,6 +4,8 @@ import 'package:ola_mundo_sqlite/db/usuario_database.dart';
 import 'package:ola_mundo_sqlite/models/usuario.dart';
 import 'package:sqflite/sqlite_api.dart';
 
+import 'db/usuario_database.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -71,18 +73,52 @@ class _HomePageState extends State<HomePage> {
   bool loading = true;
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
 
-    List<Usuario> lista = await UsuarioDatabase.get().getUsuarios();
+    // List<Usuario> lista = await UsuarioDatabase.get().getUsuarios();
 
-    lista.forEach((element) {
-      print(element.toMap());
-    });
+    // lista.forEach((element) {
+    //   print(element.toMap());
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('HomePage'),
+        ),
+        body: _criarListaUsuarios());
+  }
+
+  FutureBuilder _criarListaUsuarios() {
+    return FutureBuilder(
+      future: UsuarioDatabase.get().getUsuarios(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return CircularProgressIndicator();
+        }
+
+        return ListView.builder(
+            itemCount: snapshot.data.length,
+            itemBuilder: (context, index) {
+              Usuario item = snapshot.data[index];
+              return Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: CircleAvatar(),
+                    title: Text(item.nome),
+                    subtitle: Text(item.email),
+                    trailing: Icon(Icons.keyboard_arrow_right),
+                    onTap: () {
+                      print('clicou no item');
+                    },
+                  ),
+                ],
+              );
+            });
+      },
+    );
   }
 }
