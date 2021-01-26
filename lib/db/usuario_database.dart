@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:ola_mundo_sqlite/db/app_database.dart';
-import 'package:ola_mundo_sqlite/models/usuario.dart';
+import 'package:ola_mundo_sqlite/usuario/usuario.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class UsuarioDatabase {
