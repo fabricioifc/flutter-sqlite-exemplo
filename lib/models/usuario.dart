@@ -13,20 +13,6 @@ class Usuario {
 
   Usuario({this.email, this.nome, this.senha, this.id});
 
-  Usuario copyWith({
-    int id,
-    String email,
-    String nome,
-    String senha,
-  }) {
-    return Usuario(
-      id: id ?? this.id,
-      email: email ?? this.email,
-      nome: nome ?? this.nome,
-      senha: senha ?? this.senha,
-    );
-  }
-
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -37,6 +23,7 @@ class Usuario {
   }
 
   factory Usuario.fromMap(Map<String, dynamic> map) {
+    print(map.toString());
     if (map == null) return null;
 
     return Usuario(
